@@ -1,4 +1,4 @@
-# crudflutter
+# SalesApp - Flutter
 
 A new Flutter project.
 
