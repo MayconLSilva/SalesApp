@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:SalesApp/clientes.dart';
 import 'package:SalesApp/model/ClienteModel.dart';
-import 'package:SalesApp/control/ClienteControl.dart';
+import 'package:SalesApp/control/ClienteControl2.dart';
 
 class NovoClienteDialog extends StatefulWidget {
   @override
@@ -312,7 +312,7 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
     try
     {
       ClienteModel clienteModel = new ClienteModel();
-      var control = ClienteControl();
+      var control = ClienteControl2();
 
       clienteModel.nomeCliente = _nomeController.text;
       clienteModel.emailCliente = _emailController.text;
