@@ -330,15 +330,29 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
 
   void SalvarCliente() async{
     ClienteControl clienteControl = new ClienteControl();
+    ClienteModel clienteModel = new ClienteModel();
+
+    String nome = _nomeController.text;
+    String email = _emailController.text;
 
     Map<String, dynamic> row = {
-      DatabaseHelper.columnNome : 'Macoratti',
-      DatabaseHelper.columnEmail  : 53
+    DatabaseHelper.columnNome : nome,
+    DatabaseHelper.columnEmail  : email
     };
-    //final id = await  dbHelper.insert(row);
     final id = await clienteControl.insert(row);
-    print('linha inserida id: $id');
+    print('Cliente: $nome id $id inserida');
     _showToastClienteSalvo(context);
+
+    // Map<String, dynamic> row = {
+    //   // DatabaseHelper.columnNome : 'Macoratti',
+    //   // DatabaseHelper.columnEmail  : 53
+    //   DatabaseHelper.columnNome : _nomeController,
+    //   DatabaseHelper.columnEmail  : _emailController
+    // };
+    // //final id = await  dbHelper.insert(row);
+    // final id = await clienteControl.insert(row);
+    // print('linha inserida id: $id');
+    // _showToastClienteSalvo(context);
 
 
 
@@ -350,7 +364,7 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
     scaffold.showSnackBar(
       SnackBar(
         content: const Text('Cliente inserido'),
-        action: SnackBarAction(label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
+        action: SnackBarAction(label: 'Ocultar', onPressed: scaffold.hideCurrentSnackBar),
       ),
     );
   }
