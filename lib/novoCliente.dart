@@ -1,3 +1,5 @@
+import 'package:SalesApp/adapter/DataBaseHelper.dart';
+import 'package:SalesApp/control/ClienteControl.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -54,7 +56,8 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
             ),
             //MÉTODO CHAMA O BOTÃO SALVAR
             onPressed: (){
-              SalvarRegistro();
+              //SalvarRegistro();
+              SalvarCliente();
             },
             //FIM DO MÉTODO CHAMA O BOTÃO SALVAR
           ),
@@ -323,10 +326,34 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
     catch (e) {
       print('Erro ao salvar o cliente' + e.toString());
     }
+  }
+
+  void SalvarCliente() async{
+    ClienteControl clienteControl = new ClienteControl();
+
+    Map<String, dynamic> row = {
+      DatabaseHelper.columnNome : 'Macoratti',
+      DatabaseHelper.columnEmail  : 53
+    };
+    //final id = await  dbHelper.insert(row);
+    final id = await clienteControl.insert(row);
+    print('linha inserida id: $id');
+    _showToastClienteSalvo(context);
+
+
 
 
   }
 
+  void _showToastClienteSalvo(BuildContext context) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: const Text('Cliente inserido'),
+        action: SnackBarAction(label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
+      ),
+    );
+  }
 
 
 
