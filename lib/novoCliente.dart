@@ -1,3 +1,4 @@
+import 'package:SalesApp/Util.dart';
 import 'package:SalesApp/adapter/DataBaseHelper.dart';
 import 'package:SalesApp/control/ClienteControl.dart';
 import 'package:brasil_fields/brasil_fields.dart';
@@ -5,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:SalesApp/clientes.dart';
 import 'package:SalesApp/model/ClienteModel.dart';
-import 'package:SalesApp/control/ClienteControl2.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+
 
 class NovoClienteDialog extends StatefulWidget {
   @override
@@ -14,15 +17,18 @@ class NovoClienteDialog extends StatefulWidget {
 }
 
 class NovoClienteDialogState extends State<NovoClienteDialog> {
+
   //Inicio os métodos controller
   late TextEditingController _nomeController;
   late TextEditingController _emailController;
-  // TextEditingController _foneController;
 
   @override
   Widget build(BuildContext context) {
-    final tamanhoDaTela = MediaQuery.of(context).size.width / 3.3;
-    final tamanhoCampoNumero = tamanhoDaTela ;
+    final tamanhoDaTela = MediaQuery
+        .of(context)
+        .size
+        .width / 3.3;
+    final tamanhoCampoNumero = tamanhoDaTela;
     final tamanhoCampoEndereco = tamanhoDaTela * 2;
 
     _nomeController = TextEditingController();
@@ -38,8 +44,8 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
             label: Text('SALVAR'),
             style: TextButton.styleFrom(
               textStyle: TextStyle(
-                  fontSize: 15,
-                  //fontStyle: FontStyle.italic
+                fontSize: 15,
+                //fontStyle: FontStyle.italic
 
               ),
               primary: Colors.white, //COR DO TEXTO DO BOTÃO
@@ -49,13 +55,13 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
               //shape: const BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
             ),
             //icon: Icon(Icons.save_outlined),
-            icon:Icon(
+            icon: Icon(
               Icons.save_outlined,
               color: Colors.white,
               size: 30.0,
             ),
             //MÉTODO CHAMA O BOTÃO SALVAR
-            onPressed: (){
+            onPressed: () {
               SalvarCliente();
             },
             //FIM DO MÉTODO CHAMA O BOTÃO SALVAR
@@ -67,51 +73,51 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
       ),
 
 
- /////////////////////////////////////////////////INICIO DO CÓDIGO DOS CAMPOS/////////////////////////////////////////////////
+      /////////////////////////////////////////////////INICIO DO CÓDIGO DOS CAMPOS/////////////////////////////////////////////////
       body: SingleChildScrollView(
         child: Stack(
-            children: <Widget>[
-              new Container(
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      children: <Widget>[
+          children: <Widget>[
+            new Container(
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  children: <Widget>[
 
-                        buildTextFormFieldNome(),
-                        buildTextFormFieldCPF(),
-                        buildTextFormFieldEmail(),
-                        buildDropdownButtonFormFieldRegiao(),
-                        buildTextFormFieldCidade(),
-                        //INICIO DO CÓDIGO QUE DEIXO A ROW COM DUAS COLUNAS
-                        Container(
-                            alignment: Alignment.topCenter,
-                              child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Container(
-                                        alignment: Alignment.topCenter,
-                                        //width: 200,
-                                        width: tamanhoCampoEndereco,
-                                        child: buildTextFormFieldEndereco()
-                                      ),
-                                      Container(
-                                          alignment: Alignment.topCenter,
-                                          margin: const EdgeInsets.only(left: 5.0),
-                                          width: tamanhoCampoNumero,
-                                          //width: halfMediaWidth,
-                                          child: buildTextFormFieldEnderecoNumero()
-                                      ),
-                                    ],
-                              ),
-                        ),
-                        //FIM DO CÓDIGO QUE DEIXO A ROW COM DUAS COLUNAS
-                        buildTextFormFieldBairro()
-
-                      ],
+                    buildTextFormFieldNome(),
+                    buildTextFormFieldCPF(),
+                    buildTextFormFieldEmail(),
+                    buildDropdownButtonFormFieldRegiao(),
+                    buildTextFormFieldCidade(),
+                    //INICIO DO CÓDIGO QUE DEIXO A ROW COM DUAS COLUNAS
+                    Container(
+                      alignment: Alignment.topCenter,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                              alignment: Alignment.topCenter,
+                              //width: 200,
+                              width: tamanhoCampoEndereco,
+                              child: buildTextFormFieldEndereco()
+                          ),
+                          Container(
+                              alignment: Alignment.topCenter,
+                              margin: const EdgeInsets.only(left: 5.0),
+                              width: tamanhoCampoNumero,
+                              //width: halfMediaWidth,
+                              child: buildTextFormFieldEnderecoNumero()
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
+                    //FIM DO CÓDIGO QUE DEIXO A ROW COM DUAS COLUNAS
+                    buildTextFormFieldBairro()
+
+                  ],
+                ),
               ),
-            ],
+            ),
+          ],
         ),
       ),
 /////////////////////////////////////////////////FIM DO CÓDIGO DOS CAMPOS/////////////////////////////////////////////////
@@ -130,7 +136,7 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
       decoration: InputDecoration(
         //prefixIcon: Icon(Icons.face_outlined), //Icone dentro do campo
         //icon:Icon(Icons.supervisor_account_outlined), //Icone fora do campo
-        icon:Icon(
+        icon: Icon(
           Icons.supervisor_account_outlined,
           color: Colors.grey[600],
           size: 30.0,
@@ -164,11 +170,11 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
       maxLength: 20,
       controller: _emailController,
       decoration: InputDecoration(
-        icon:Icon(
+        icon: Icon(
           Icons.email_outlined,
           color: Colors.grey[600],
           size: 30.0,
-        ),//Icone fora do campo
+        ), //Icone fora do campo
         labelText: "E-mail",
       ),
       validator: (value) {
@@ -185,7 +191,7 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
       keyboardType: TextInputType.text,
       maxLength: 15,
       decoration: InputDecoration(
-        icon:Icon(
+        icon: Icon(
           Icons.location_city,
           color: Colors.grey[600],
           size: 30.0,
@@ -213,7 +219,7 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
       maxLength: 18,
       //controller: _cpfCnpjController,
       decoration: InputDecoration(
-        icon:Icon(
+        icon: Icon(
           Icons.badge_outlined,
           color: Colors.grey[600],
           size: 30.0,
@@ -229,14 +235,14 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
     );
   }
 
-  DropdownButtonFormField buildDropdownButtonFormFieldRegiao(){
+  DropdownButtonFormField buildDropdownButtonFormFieldRegiao() {
     return DropdownButtonFormField(
       decoration: InputDecoration(
         //border: OutlineInputBorder(borderRadius: const BorderRadius.all(const Radius.circular(30.0),),), //Borda da combobox
         //filled: true, //Cor de fundo da combobox
         //hintStyle: TextStyle(color: Colors.grey[800]),
           labelText: "Região",
-          icon:Icon(
+          icon: Icon(
             Icons.location_city,
             color: Colors.grey[600],
             size: 30.0,
@@ -294,7 +300,7 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
       keyboardType: TextInputType.text,
       maxLength: 60,
       decoration: InputDecoration(
-        icon:Icon(
+        icon: Icon(
           Icons.location_city_outlined,
           color: Colors.grey[600],
           size: 30.0,
@@ -311,7 +317,7 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
   }
 
   //Método salvar/inserir cliente
-  void SalvarCliente()async{
+  void SalvarCliente() async {
     ClienteControl clienteControl = new ClienteControl();
     ClienteModel clienteModel = new ClienteModel();
 
@@ -321,33 +327,15 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
 
     final id = await clienteControl.insertCliente(clienteModel);
     print('Cliente:  $id inserida');
-    _showToastClienteSalvo(context);
 
-    //Retorna a tela de lista de clientes
-    // Navigator.push(context,
-    //    MaterialPageRoute(builder: (context) => Clientes()),
-    //  );
+    Util util = new Util();
+    util.toastSucesso("Cliente inserido com sucesso!");
 
     Navigator.of(context).pop();
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) => Clientes()));
+    builder: (BuildContext context) => Clientes()));
 
   }
-
-  //Método mensagem ao salvar
-  void _showToastClienteSalvo(BuildContext context) {
-    final scaffold = ScaffoldMessenger.of(context);
-    scaffold.showSnackBar(
-      SnackBar(
-        content: const Text('Cliente inserido'),
-        action: SnackBarAction(label: 'Ocultar', onPressed: scaffold.hideCurrentSnackBar),
-      ),
-    );
-  }
-
-
-
-}
 
 
 
@@ -379,9 +367,8 @@ void SalvarClienteOld() async{
   // print('linha inserida id: $id');
   // _showToastClienteSalvo(context);
 
-
+}
+ */
 
 
 }
-
- */
