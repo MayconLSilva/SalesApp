@@ -56,7 +56,6 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
             ),
             //MÉTODO CHAMA O BOTÃO SALVAR
             onPressed: (){
-              //SalvarRegistro();
               SalvarCliente();
             },
             //FIM DO MÉTODO CHAMA O BOTÃO SALVAR
@@ -311,54 +310,31 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
     );
   }
 
-  void SalvarRegistro() async {
-    try
-    {
-      ClienteModel clienteModel = new ClienteModel();
-      var control = ClienteControl2();
-
-      clienteModel.nomeCliente = _nomeController.text;
-      clienteModel.emailCliente = _emailController.text;
-      //widget.id = await control.inserir(obj);
-      control.inserir(clienteModel);
-      print('Cliente salvo com sucesso');
-    }
-    catch (e) {
-      print('Erro ao salvar o cliente' + e.toString());
-    }
-  }
-
-  void SalvarCliente() async{
+  //Método salvar/inserir cliente
+  void SalvarCliente()async{
     ClienteControl clienteControl = new ClienteControl();
     ClienteModel clienteModel = new ClienteModel();
 
-    String nome = _nomeController.text;
-    String email = _emailController.text;
+    clienteModel.idCliente = 0;
+    clienteModel.nomeCliente = _nomeController.text;
+    clienteModel.emailCliente = _emailController.text;
 
-    Map<String, dynamic> row = {
-    DatabaseHelper.columnNome : nome,
-    DatabaseHelper.columnEmail  : email
-    };
-    final id = await clienteControl.insert(row);
-    print('Cliente: $nome id $id inserida');
+    final id = await clienteControl.insertCliente(clienteModel);
+    print('Cliente:  $id inserida');
     _showToastClienteSalvo(context);
 
-    // Map<String, dynamic> row = {
-    //   // DatabaseHelper.columnNome : 'Macoratti',
-    //   // DatabaseHelper.columnEmail  : 53
-    //   DatabaseHelper.columnNome : _nomeController,
-    //   DatabaseHelper.columnEmail  : _emailController
-    // };
-    // //final id = await  dbHelper.insert(row);
-    // final id = await clienteControl.insert(row);
-    // print('linha inserida id: $id');
-    // _showToastClienteSalvo(context);
+    //Retorna a tela de lista de clientes
+    // Navigator.push(context,
+    //    MaterialPageRoute(builder: (context) => Clientes()),
+    //  );
 
-
-
+    Navigator.of(context).pop();
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) => Clientes()));
 
   }
 
+  //Método mensagem ao salvar
   void _showToastClienteSalvo(BuildContext context) {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(
@@ -375,3 +351,37 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
 
 
 
+//Método salvar cliente antigo
+/*
+void SalvarClienteOld() async{
+  ClienteControl clienteControl = new ClienteControl();
+  ClienteModel clienteModel = new ClienteModel();
+
+  String nome = _nomeController.text;
+  String email = _emailController.text;
+
+  Map<String, dynamic> row = {
+    DatabaseHelper.columnNome : nome,
+    DatabaseHelper.columnEmail  : email
+  };
+  final id = await clienteControl.insert(row);
+  print('Cliente: $nome id $id inserida');
+  _showToastClienteSalvo(context);
+
+  // Map<String, dynamic> row = {
+  //   // DatabaseHelper.columnNome : 'Macoratti',
+  //   // DatabaseHelper.columnEmail  : 53
+  //   DatabaseHelper.columnNome : _nomeController,
+  //   DatabaseHelper.columnEmail  : _emailController
+  // };
+  // //final id = await  dbHelper.insert(row);
+  // final id = await clienteControl.insert(row);
+  // print('linha inserida id: $id');
+  // _showToastClienteSalvo(context);
+
+
+
+
+}
+
+ */
