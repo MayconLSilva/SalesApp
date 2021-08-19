@@ -2,14 +2,19 @@ class ClienteModel{
   int _idCliente=0;
   String _nomeCliente = "";
   String _cpfCliente= "";
+  String _rgIeCliente = "";
   String _emailCliente= "";
   String _regiaoCliente= "";
   String _cidadeCliente= "";
   String _enderecoCliente= "";
   String _numeroEnderecoCliente= "";
   String _bairroCliente= "";
+  String _telefoneCliente = "";
+  String _celularCliente = "";
 
-  // @override
+
+
+  //} // @override
   // ClienteModel(
   //     //this._idCliente,
   //     this._nomeCliente,
@@ -52,6 +57,12 @@ class ClienteModel{
     _cpfCliente = value;
   }
 
+  String get rgIeCliente => _rgIeCliente;
+
+  set rgIeCliente(String value) {
+    _rgIeCliente = value;
+  }
+
   String get emailCliente => _emailCliente;
 
   set emailCliente(String value) {
@@ -87,4 +98,17 @@ class ClienteModel{
   set bairroCliente(String value) {
     _bairroCliente = value;
   }
+
+  String get celularCliente => _celularCliente;
+
+  set celularCliente(String value) {
+    _celularCliente = value;
+  }
+
+  String get telefoneCliente => _telefoneCliente;
+
+  set telefoneCliente(String value) {
+    _telefoneCliente = value;
+  }
+
 }

@@ -10,6 +10,26 @@ import 'package:SalesApp/model/ClienteModel.dart';
 
 
 class NovoClienteDialog extends StatefulWidget {
+
+  //Inicio do código ref. ao controller
+  late TextEditingController _nomeController ;
+  late TextEditingController _CpfCnpjController;
+  late TextEditingController _rgIeController;
+  late TextEditingController _emailController;
+  late TextEditingController _telefoneController;
+  late TextEditingController _celularController;
+
+  NovoClienteDialog(){
+    _nomeController = new TextEditingController();
+    _CpfCnpjController = new TextEditingController();
+    _rgIeController = new TextEditingController();
+    _emailController = new TextEditingController();
+    _telefoneController = new TextEditingController();
+    _celularController = new TextEditingController();
+
+  }
+  //Fim do código ref. ao controller
+
   @override
   NovoClienteDialogState createState() => new NovoClienteDialogState();
 
@@ -17,21 +37,17 @@ class NovoClienteDialog extends StatefulWidget {
 
 class NovoClienteDialogState extends State<NovoClienteDialog> {
 
-  //Inicio os métodos controller
-  late TextEditingController _nomeController;
-  late TextEditingController _emailController;
-
   @override
   Widget build(BuildContext context) {
+
+    //Inicio do código ref. ao tamanho dos campos
     final tamanhoDaTela = MediaQuery
         .of(context)
         .size
         .width / 3.3;
     final tamanhoCampoNumero = tamanhoDaTela;
     final tamanhoCampoEndereco = tamanhoDaTela * 2;
-
-    _nomeController = TextEditingController();
-    _emailController = TextEditingController();
+    //Fim do código ref. ao tamanho dos campos
 
     return new Scaffold(
       appBar: new AppBar(
@@ -141,7 +157,7 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
       maxLength: 50,
       //initialValue: 'marcio@ ...', //Posso colocar um valor inicial no campo
       //cursorColor: Colors.deepOrange, //Cor do curso no campo
-      controller: _nomeController,
+      controller: widget._nomeController,
       decoration: InputDecoration(
         //prefixIcon: Icon(Icons.face_outlined), //Icone dentro do campo
         //icon:Icon(Icons.supervisor_account_outlined), //Icone fora do campo
@@ -177,7 +193,7 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
       maxLength: 20,
-      controller: _emailController,
+      controller: widget._emailController,
       decoration: InputDecoration(
         icon: Icon(
           Icons.email_outlined,
@@ -226,7 +242,7 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
         CpfOuCnpjFormatter(),
       ],
       maxLength: 18,
-      //controller: _cpfCnpjController,
+      controller: widget._CpfCnpjController,
       decoration: InputDecoration(
         icon: Icon(
           Icons.badge_outlined,
@@ -248,7 +264,7 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
     return TextFormField(
       keyboardType: TextInputType.number,
       maxLength: 18,
-      //controller: _cpfCnpjController,
+      controller: widget._rgIeController,
       decoration: InputDecoration(
         icon: Icon(
           Icons.badge_outlined,
@@ -275,7 +291,7 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
         TelefoneInputFormatter(),
       ],
       maxLength: 14,
-      //controller: _cpfCnpjController,
+      controller: widget._telefoneController,
       decoration: InputDecoration(
         icon: Icon(
           Icons.phone_outlined,
@@ -302,7 +318,7 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
         TelefoneInputFormatter(),
       ],
       maxLength: 15,
-      //controller: _cpfCnpjController,
+      controller: widget._celularController,
       decoration: InputDecoration(
         icon: Icon(
           Icons.phone_iphone_outlined,
@@ -407,8 +423,12 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
     ClienteModel clienteModel = new ClienteModel();
 
     clienteModel.idCliente = 0;
-    clienteModel.nomeCliente = _nomeController.text;
-    clienteModel.emailCliente = _emailController.text;
+    clienteModel.nomeCliente = widget._nomeController.text;
+    clienteModel.cpfCliente = widget._CpfCnpjController.text;
+    clienteModel.rgIeCliente = widget._rgIeController.text;
+    clienteModel.emailCliente = widget._emailController.text;
+    clienteModel.telefoneCliente = widget._telefoneController.text;
+    clienteModel.celularCliente = widget._celularController.text;
 
     final id = await clienteControl.insertCliente(clienteModel);
     print('Cliente:  $id inserida');
