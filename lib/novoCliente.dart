@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:SalesApp/clientes.dart';
 import 'package:SalesApp/model/ClienteModel.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 
 
@@ -74,52 +73,62 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
 
 
       /////////////////////////////////////////////////INICIO DO CÓDIGO DOS CAMPOS/////////////////////////////////////////////////
-      body: SingleChildScrollView(
-        child: Stack(
-          children: <Widget>[
-            new Container(
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  children: <Widget>[
+      body:
 
-                    buildTextFormFieldNome(),
-                    buildTextFormFieldCPF(),
-                    buildTextFormFieldEmail(),
-                    buildDropdownButtonFormFieldRegiao(),
-                    buildTextFormFieldCidade(),
-                    //INICIO DO CÓDIGO QUE DEIXO A ROW COM DUAS COLUNAS
-                    Container(
-                      alignment: Alignment.topCenter,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                              alignment: Alignment.topCenter,
-                              //width: 200,
-                              width: tamanhoCampoEndereco,
-                              child: buildTextFormFieldEndereco()
-                          ),
-                          Container(
-                              alignment: Alignment.topCenter,
-                              margin: const EdgeInsets.only(left: 5.0),
-                              width: tamanhoCampoNumero,
-                              //width: halfMediaWidth,
-                              child: buildTextFormFieldEnderecoNumero()
-                          ),
-                        ],
+        SingleChildScrollView(
+          //keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          child: Stack(
+            children: <Widget>[
+              new Container(
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    children: <Widget>[
+
+                      buildTextFormFieldNome(),
+                      buildTextFormFieldCPF(),
+                      buildTextFormFieldIERg(),
+                      buildTextFormFieldEmail(),
+                      buildTextFormFieldTelefone(),
+                      buildTextFormFieldCelular()
+
+                      /*
+                      buildDropdownButtonFormFieldRegiao(),
+                      buildTextFormFieldCidade(),
+                      //INICIO DO CÓDIGO QUE DEIXO A ROW COM DUAS COLUNAS
+                      Container(
+                        alignment: Alignment.topCenter,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                                alignment: Alignment.topCenter,
+                                //width: 200,
+                                width: tamanhoCampoEndereco,
+                                child: buildTextFormFieldEndereco()
+                            ),
+                            Container(
+                                alignment: Alignment.topCenter,
+                                margin: const EdgeInsets.only(left: 5.0),
+                                width: tamanhoCampoNumero,
+                                //width: halfMediaWidth,
+                                child: buildTextFormFieldEnderecoNumero()
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    //FIM DO CÓDIGO QUE DEIXO A ROW COM DUAS COLUNAS
-                    buildTextFormFieldBairro()
+                      //FIM DO CÓDIGO QUE DEIXO A ROW COM DUAS COLUNAS
+                      buildTextFormFieldBairro()
+                      */
 
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
+
 /////////////////////////////////////////////////FIM DO CÓDIGO DOS CAMPOS/////////////////////////////////////////////////
 
     );
@@ -229,6 +238,82 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
       validator: (value) {
         if (value!.isEmpty) {
           return 'Informe o CPF/CNPJ do cliente!';
+        }
+        return null;
+      },
+    );
+  }
+
+  TextFormField buildTextFormFieldIERg() {
+    return TextFormField(
+      keyboardType: TextInputType.number,
+      maxLength: 18,
+      //controller: _cpfCnpjController,
+      decoration: InputDecoration(
+        icon: Icon(
+          Icons.badge_outlined,
+          color: Colors.grey[600],
+          size: 30.0,
+        ),
+        labelText: "I.E/RG",
+      ),
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Informe a I.E/RG do cliente!';
+        }
+        return null;
+      },
+    );
+  }
+
+  TextFormField buildTextFormFieldTelefone() {
+    return TextFormField(
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        // obrigatório
+        FilteringTextInputFormatter.digitsOnly,
+        TelefoneInputFormatter(),
+      ],
+      maxLength: 14,
+      //controller: _cpfCnpjController,
+      decoration: InputDecoration(
+        icon: Icon(
+          Icons.phone_outlined,
+          color: Colors.grey[600],
+          size: 30.0,
+        ),
+        labelText: "Telefone",
+      ),
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Informe o telefone do cliente!';
+        }
+        return null;
+      },
+    );
+  }
+
+  TextFormField buildTextFormFieldCelular() {
+    return TextFormField(
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        // obrigatório
+        FilteringTextInputFormatter.digitsOnly,
+        TelefoneInputFormatter(),
+      ],
+      maxLength: 15,
+      //controller: _cpfCnpjController,
+      decoration: InputDecoration(
+        icon: Icon(
+          Icons.phone_iphone_outlined,
+          color: Colors.grey[600],
+          size: 30.0,
+        ),
+        labelText: "Celular",
+      ),
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Informe o celular do cliente!';
         }
         return null;
       },
