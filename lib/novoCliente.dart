@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:SalesApp/clientes.dart';
 import 'package:SalesApp/model/ClienteModel.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 
 
@@ -421,6 +422,7 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
   void SalvarCliente() async {
     ClienteControl clienteControl = new ClienteControl();
     ClienteModel clienteModel = new ClienteModel();
+    Util util = new Util();
 
     clienteModel.idCliente = 0;
     clienteModel.nomeCliente = widget._nomeController.text;
@@ -430,18 +432,28 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
     clienteModel.telefoneCliente = widget._telefoneController.text;
     clienteModel.celularCliente = widget._celularController.text;
 
+    if(widget._nomeController.text == '' )
+    {
+      return Util.mensagem(context, "O campo nome deve ser preenchido!");
+    }
+
+    if(widget._CpfCnpjController.text == '')
+    {
+      return Util.mensagem(context, "O campo CPF/CNPJ deve ser preenchido!");
+    }
+
     final id = await clienteControl.insertCliente(clienteModel);
     print('Cliente:  $id inserida');
 
-    Util util = new Util();
-    util.toastSucesso("Cliente inserido com sucesso!");
+
+    //util.toastSucesso("Cliente inserido com sucesso!");
+    util.showToast("Cliente inserido com sucesso!");
 
     Navigator.of(context).pop();
     Navigator.of(context).push(MaterialPageRoute(
     builder: (BuildContext context) => Clientes()));
 
   }
-
 
 
 //Método salvar cliente antigo
