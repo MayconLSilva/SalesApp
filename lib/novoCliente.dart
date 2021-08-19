@@ -55,7 +55,7 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
         title: const Text('Novo Cliente'),
         actions: [
 
-          //MÉTODO ICON/TEXT BOTÃO SALVAR
+          //Inicio do código método salvar
           TextButton.icon(
             label: Text('SALVAR'),
             style: TextButton.styleFrom(
@@ -82,7 +82,29 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
             },
             //FIM DO MÉTODO CHAMA O BOTÃO SALVAR
           ),
-          //FIM MÉTODO ICON/TEXT BOTÃO SALVAR
+          //Fim do código método salvar
+
+          //Inicio do código método cadastrar endereço
+          TextButton.icon(
+            label: Text(''),
+            style: TextButton.styleFrom(
+              textStyle: TextStyle(
+                fontSize: 15,
+              ),
+              primary: Colors.white,
+            ),
+            icon: Icon(
+              Icons.location_on_outlined,
+              color: Colors.white,
+              size: 30.0,
+            ),
+
+            onPressed: () {
+              //
+            },
+            //
+          ),
+          //Fim do código método cadastrar endereço
 
         ],
 
