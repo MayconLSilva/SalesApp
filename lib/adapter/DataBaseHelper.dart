@@ -9,12 +9,17 @@ class DatabaseHelper {
   static final _databaseName = "SalesAPP.db";
   static final _databaseVersion = 1;
 
+  //Ref. tabela cliente
   static final table = 'cliente';
   static final columnId = '_idCliente';
   static final columnNome = 'nomeCliente';
+  static final columncpfCnpj = 'CnpjCpfCliente';
+  static final columninscricaoRg = 'IeRgCliente';
   static final columnEmail = 'emailCliente';
+  static final columnTelefone = 'telefoneCliente';
+  static final columnCelular = 'celularCliente';
 
-  // torna esta classe singleton
+  // Torna esta classe singleton
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
 
@@ -39,7 +44,7 @@ class DatabaseHelper {
     return _database!;
   }
 
-  // abre o banco de dados e o cria se ele não existir
+  // Abre o banco de dados e o cria se ele não existir
   _initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, _databaseName);
@@ -48,13 +53,17 @@ class DatabaseHelper {
         onCreate: _onCreate);
   }
 
-  // Código SQL para criar o banco de dados e a tabela
+  // Código SQL para criar o banco de dados e as tabelas
   Future _onCreate(Database db, int version) async {
     await db.execute('''
           CREATE TABLE $table (
             $columnId INTEGER PRIMARY KEY,
             $columnNome TEXT NOT NULL,
-            $columnEmail INTEGER NOT NULL
+            $columncpfCnpj TEXT NOT NULL,
+            $columninscricaoRg TEXT NOT NULL,
+            $columnEmail INTEGER NOT NULL,
+            $columnTelefone TEXT NOT NULL,
+            $columnCelular TEXT NOT NULL
           )
           ''');
   }

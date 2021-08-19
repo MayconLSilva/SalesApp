@@ -443,15 +443,16 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
     }
 
     final id = await clienteControl.insertCliente(clienteModel);
+
     print('Cliente:  $id inserida');
+    util.toastSucesso("Cliente inserido com sucesso!");
 
-
-    //util.toastSucesso("Cliente inserido com sucesso!");
-    util.showToast("Cliente inserido com sucesso!");
-
+     /*
     Navigator.of(context).pop();
     Navigator.of(context).push(MaterialPageRoute(
     builder: (BuildContext context) => Clientes()));
+
+     */
 
   }
 

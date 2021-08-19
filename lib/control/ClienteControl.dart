@@ -11,9 +11,12 @@ class ClienteControl{
     Database db = await DatabaseHelper.instance.database;
 
     var map = <String, dynamic>{
-      //'_idCliente': obj.idCliente,
       'nomeCliente': obj.nomeCliente,
-      'emailCliente': obj.emailCliente
+      'CnpjCpfCliente' : obj.cpfCliente,
+      'IeRgCliente' : obj.rgIeCliente,
+      'emailCliente': obj.emailCliente,
+      'telefoneCliente': obj.telefoneCliente,
+      'celularCliente': obj.celularCliente
     };
 
     //Caso tenha id no campo iremos fazer atualização, e carrego a informação no parâmetro
