@@ -469,6 +469,8 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
     print('Cliente:  $id inserida');
     util.toastSucesso("Cliente inserido com sucesso!");
 
+    Navigator.pop(context);
+
      /*
     Navigator.of(context).pop();
     Navigator.of(context).push(MaterialPageRoute(
