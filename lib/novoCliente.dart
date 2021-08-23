@@ -1,19 +1,15 @@
 import 'package:SalesApp/Util.dart';
-import 'package:SalesApp/adapter/DataBaseHelper.dart';
 import 'package:SalesApp/control/ClienteControl.dart';
+import 'package:SalesApp/screens/clienteEndereco.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:SalesApp/clientes.dart';
 import 'package:SalesApp/model/ClienteModel.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
-
 
 class NovoClienteDialog extends StatefulWidget {
 
   //Inicio do código ref. ao controller
-  late TextEditingController _nomeController ;
+  late TextEditingController _nomeController;
   late TextEditingController _CpfCnpjController;
   late TextEditingController _rgIeController;
   late TextEditingController _emailController;
@@ -21,35 +17,27 @@ class NovoClienteDialog extends StatefulWidget {
   late TextEditingController _celularController;
 
   NovoClienteDialog(){
+
     _nomeController = new TextEditingController();
     _CpfCnpjController = new TextEditingController();
     _rgIeController = new TextEditingController();
     _emailController = new TextEditingController();
     _telefoneController = new TextEditingController();
     _celularController = new TextEditingController();
-
   }
   //Fim do código ref. ao controller
-
   @override
   NovoClienteDialogState createState() => new NovoClienteDialogState();
-
 }
 
 class NovoClienteDialogState extends State<NovoClienteDialog> {
+  //Codigo importando classe modelo, controle e util
+  ClienteControl clienteControl = new ClienteControl();
+  ClienteModel clienteModel = new ClienteModel();
+  Util util = new Util();
 
   @override
   Widget build(BuildContext context) {
-
-    //Inicio do código ref. ao tamanho dos campos
-    final tamanhoDaTela = MediaQuery
-        .of(context)
-        .size
-        .width / 3.3;
-    final tamanhoCampoNumero = tamanhoDaTela;
-    final tamanhoCampoEndereco = tamanhoDaTela * 2;
-    //Fim do código ref. ao tamanho dos campos
-
     return new Scaffold(
       appBar: new AppBar(
         title: const Text('Novo Cliente'),
@@ -100,7 +88,24 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
             ),
 
             onPressed: () {
-              //
+              /*
+              Navigator.of(context).pop();
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => Clientes()));
+              */
+
+              int id = clienteModel.idCliente;
+              print('Chamando cadastro de endereço, cliente de código $id');
+              if(id == 0)//Só vou chamar caso o cliente já foi cadastrado e abro a tela, caso seja um novo cliente não chamo a tela.
+                return;
+
+              Navigator.of(context).push(new MaterialPageRoute<Null>(
+                  builder: (BuildContext context) {
+                    return new ClienteEnderecoDialog(id);
+                  },
+                  fullscreenDialog: true
+              ));
+
             },
             //
           ),
@@ -130,35 +135,6 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
                       buildTextFormFieldEmail(),
                       buildTextFormFieldTelefone(),
                       buildTextFormFieldCelular()
-
-                      /*
-                      buildDropdownButtonFormFieldRegiao(),
-                      buildTextFormFieldCidade(),
-                      //INICIO DO CÓDIGO QUE DEIXO A ROW COM DUAS COLUNAS
-                      Container(
-                        alignment: Alignment.topCenter,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                                alignment: Alignment.topCenter,
-                                //width: 200,
-                                width: tamanhoCampoEndereco,
-                                child: buildTextFormFieldEndereco()
-                            ),
-                            Container(
-                                alignment: Alignment.topCenter,
-                                margin: const EdgeInsets.only(left: 5.0),
-                                width: tamanhoCampoNumero,
-                                //width: halfMediaWidth,
-                                child: buildTextFormFieldEnderecoNumero()
-                            ),
-                          ],
-                        ),
-                      ),
-                      //FIM DO CÓDIGO QUE DEIXO A ROW COM DUAS COLUNAS
-                      buildTextFormFieldBairro()
-                      */
 
                     ],
                   ),
@@ -212,50 +188,6 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
     );
   }
 
-  TextFormField buildTextFormFieldEmail() {
-    return TextFormField(
-      keyboardType: TextInputType.emailAddress,
-      maxLength: 20,
-      controller: widget._emailController,
-      decoration: InputDecoration(
-        icon: Icon(
-          Icons.email_outlined,
-          color: Colors.grey[600],
-          size: 30.0,
-        ), //Icone fora do campo
-        labelText: "E-mail",
-      ),
-      validator: (value) {
-        if (value!.isEmpty) {
-          return 'Informe o e-mail do cliente!';
-        }
-        return null;
-      },
-    );
-  }
-
-  TextFormField buildTextFormFieldCidade() {
-    return TextFormField(
-      keyboardType: TextInputType.text,
-      maxLength: 15,
-      decoration: InputDecoration(
-        icon: Icon(
-          Icons.location_city,
-          color: Colors.grey[600],
-          size: 30.0,
-        ),
-        labelText: "Cidade",
-        //labelStyle: TextStyle(color: Colors.black, fontSize: 20.0),
-      ),
-      validator: (value) {
-        if (value!.isEmpty) {
-          return 'Informe a cidade do cliente!';
-        }
-        return null;
-      },
-    );
-  }
-
   TextFormField buildTextFormFieldCPF() {
     return TextFormField(
       keyboardType: TextInputType.number,
@@ -299,6 +231,28 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
       validator: (value) {
         if (value!.isEmpty) {
           return 'Informe a I.E/RG do cliente!';
+        }
+        return null;
+      },
+    );
+  }
+
+  TextFormField buildTextFormFieldEmail() {
+    return TextFormField(
+      keyboardType: TextInputType.emailAddress,
+      maxLength: 30,
+      controller: widget._emailController,
+      decoration: InputDecoration(
+        icon: Icon(
+          Icons.email_outlined,
+          color: Colors.grey[600],
+          size: 30.0,
+        ), //Icone fora do campo
+        labelText: "E-mail",
+      ),
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Informe o e-mail do cliente!';
         }
         return null;
       },
@@ -359,92 +313,11 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
     );
   }
 
-  DropdownButtonFormField buildDropdownButtonFormFieldRegiao() {
-    return DropdownButtonFormField(
-      decoration: InputDecoration(
-        //border: OutlineInputBorder(borderRadius: const BorderRadius.all(const Radius.circular(30.0),),), //Borda da combobox
-        //filled: true, //Cor de fundo da combobox
-        //hintStyle: TextStyle(color: Colors.grey[800]),
-          labelText: "Região",
-          icon: Icon(
-            Icons.location_city,
-            color: Colors.grey[600],
-            size: 30.0,
-          ),
-          hintText: "Região",
-          fillColor: Colors.blue[200]),
-      onChanged: (regiaoSelecionada) {
-        print(regiaoSelecionada);
-      },
-      items: Regioes.listaRegioes.map((String regiao) {
-        return DropdownMenuItem(
-          value: regiao,
-          child: Text(regiao),
-        );
-      }).toList(),
-    );
-  }
-
-  TextFormField buildTextFormFieldEndereco() {
-    return TextFormField(
-      keyboardType: TextInputType.text,
-      maxLength: 30,
-      decoration: InputDecoration(
-        labelText: "Endereço",
-      ),
-      validator: (value) {
-        if (value!.isEmpty) {
-          return 'Informe o endereço do cliente!';
-        }
-        return null;
-      },
-    );
-  }
-
-  TextFormField buildTextFormFieldEnderecoNumero() {
-    return TextFormField(
-      keyboardType: TextInputType.text,
-      maxLength: 5,
-      decoration: InputDecoration(
-        //icon:Icon(Icons.location_city_outlined), //Icone fora do campo
-        labelText: "Nº",
-        //labelStyle: TextStyle(color: Colors.black, fontSize: 20.0),
-      ),
-      validator: (value) {
-        if (value!.isEmpty) {
-          return 'Informe o número do endereço do cliente!';
-        }
-        return null;
-      },
-    );
-  }
-
-  TextFormField buildTextFormFieldBairro() {
-    return TextFormField(
-      keyboardType: TextInputType.text,
-      maxLength: 60,
-      decoration: InputDecoration(
-        icon: Icon(
-          Icons.location_city_outlined,
-          color: Colors.grey[600],
-          size: 30.0,
-        ),
-        labelText: "Bairro",
-      ),
-      validator: (value) {
-        if (value!.isEmpty) {
-          return 'Informe o bairro do cliente!';
-        }
-        return null;
-      },
-    );
-  }
-
-  //Método salvar/inserir cliente
+//Método salvar/inserir cliente
   void SalvarCliente() async {
-    ClienteControl clienteControl = new ClienteControl();
-    ClienteModel clienteModel = new ClienteModel();
-    Util util = new Util();
+     // ClienteControl clienteControl = new ClienteControl();
+     // ClienteModel clienteModel = new ClienteModel();
+    // Util util = new Util();
 
     clienteModel.idCliente = 0;
     clienteModel.nomeCliente = widget._nomeController.text;
@@ -465,20 +338,13 @@ class NovoClienteDialogState extends State<NovoClienteDialog> {
     }
 
     final id = await clienteControl.insertCliente(clienteModel);
-
     print('Cliente:  $id inserida');
     util.toastSucesso("Cliente inserido com sucesso!");
 
     Navigator.pop(context);
 
-     /*
-    Navigator.of(context).pop();
-    Navigator.of(context).push(MaterialPageRoute(
-    builder: (BuildContext context) => Clientes()));
-
-     */
-
   }
+
 
 
 //Método salvar cliente antigo
