@@ -36,6 +36,43 @@ class ClienteControl{
     return ret;
   }
 
+  //Listar clientes
+
+
+  Future<List<Map<String, dynamic>>> queryAllRows() async {
+    Database db = await DatabaseHelper.instance.database;
+
+    return await db.query(table);
+  }
+
+
+
+
+
+  Future<List<ClienteModel>> ler() async {
+    Database db = await DatabaseHelper.instance.database;
+
+    //List<ClienteModel> listarClientes = new List();
+
+    ClienteModel clienteModel = new ClienteModel();
+    List<ClienteModel> listarClientes = new List.filled(1, clienteModel);
+
+
+    List<Map<String, dynamic>> mapContatos = await db.query(table, orderBy: "nomeCliente ASC");
+
+    // for (Map<String, dynamic> map in mapContatos) {
+    //   ClienteModel objCliente = new ClienteModel(
+    //     map['nome'],
+    //     map['telefone'],
+    //   );
+    //   contato.setId(map['id']);
+    //   listarClientes.add(objCliente);
+    // }
+    return listarClientes;
+  }
+
+
+
 
 
 

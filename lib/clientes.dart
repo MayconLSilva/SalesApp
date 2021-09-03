@@ -1,7 +1,13 @@
+import 'package:SalesApp/adapter/DataBaseHelper.dart';
+import 'package:SalesApp/control/ClienteControl.dart';
 import 'package:flutter/material.dart';
 import 'novoCliente.dart';
 
 class Clientes extends StatelessWidget {
+
+  final dbHelper = DatabaseHelper.instance;
+  ClienteControl clienteControl = new ClienteControl();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,6 +23,7 @@ class Clientes extends StatelessWidget {
                     },
                     fullscreenDialog: true
                 ));
+              //_consultar();
             },
           ),
           //CAMPO BUSCA
@@ -28,10 +35,30 @@ class Clientes extends StatelessWidget {
         ],
 
       ),
-      body: Center(//Inicio do meio da tela, só jogar o listview
+      body: clientesDetail(),//Center(),
+    );
+  }
 
+  clientesDetail(){
+    return Container(padding: new EdgeInsets.all(5.0),
+      child:
+      ListTile(
+        title: Text("user.email",
+            style: TextStyle(fontWeight: FontWeight.w500)),
+        subtitle: Text("teste"),
+        leading: Icon(Icons.email,color: Colors.blue),
       ),
     );
   }
+
+  void _consultar() async {
+    //final todasLinhas = await dbHelper.queryAllRows();
+    //final id = await clienteControl.insertCliente(clienteModel);
+    final todasLinhas2 = await clienteControl.queryAllRows();
+    print('Consulta todas as linhas:');
+    todasLinhas2.forEach((row) => print(row));
+  }
+
+
 }
 
