@@ -39,6 +39,64 @@ class ClienteControl{
   //Listar clientes
 
 
+
+
+
+
+  Future getAllNotes() async {
+    //var dbClient = await db;
+    Database db = await DatabaseHelper.instance.database;
+
+
+    var result = await db.query(table, columns: ["_idCliente", "nomeCliente", "CnpjCpfCliente"]);
+    //    var result = await dbClient.rawQuery('SELECT * FROM $tableNote');
+
+    return result.toList();
+  }
+
+
+  // Future<List<ClienteModel>> ler() async {
+  //   print('Inicio Controle' );
+  //   Database db = await DatabaseHelper.instance.database;
+  //   print('Inicio Controle 2' );
+  //
+  //
+  //   ClienteModel clienteModel = new ClienteModel();
+  //   print('Inicio Controle 3' );
+  //   //List<ClienteModel> listarClientes = new List();
+  //
+  //
+  //
+  //
+  //   print('Inicio Controle 4' );
+  //
+  //   List<Map<String, dynamic>> mapContatos = await db.query(table, orderBy: "nomeCliente ASC");
+  //
+  //   print('Inicio Controle 5 ' );
+  //
+  //
+  //   for (Map<String, dynamic> map in mapContatos) {
+  //     print('Inicio Controle 6 ' );
+  //     ClienteModel objCliente = new ClienteModel();
+  //     print('Inicio Controle 7 ' );
+  //         objCliente.nomeCliente =  map['nomeCliente'];
+  //         objCliente.cpfCliente = map['CnpjCpfCliente'];
+  //     print('Inicio Controle 8 ' );
+  //     print('Inicio Controle 8B ' + map['nomeCliente']);
+  //     print('Inicio Controle 8c ' + map['CnpjCpfCliente']);
+  //
+  //
+  //     //listarClientes.add(objCliente);
+  //     print('Inicio Controle 9 ' );
+  //   }
+  //
+  //
+  //   print('Final Controle' );
+  //
+  //   return listarClientes;
+  // }
+
+
   Future<List<Map<String, dynamic>>> queryAllRows() async {
     Database db = await DatabaseHelper.instance.database;
 
@@ -46,35 +104,16 @@ class ClienteControl{
   }
 
 
+  Future listar() async {
+    try {
+      Database db = await DatabaseHelper.instance.database;
+      String sql = "SELECT * FROM " + table ;
 
+      List map = await db.rawQuery(sql);
 
-
-  Future<List<ClienteModel>> ler() async {
-    Database db = await DatabaseHelper.instance.database;
-
-    //List<ClienteModel> listarClientes = new List();
-
-    ClienteModel clienteModel = new ClienteModel();
-    List<ClienteModel> listarClientes = new List.filled(1, clienteModel);
-
-
-    List<Map<String, dynamic>> mapContatos = await db.query(table, orderBy: "nomeCliente ASC");
-
-    // for (Map<String, dynamic> map in mapContatos) {
-    //   ClienteModel objCliente = new ClienteModel(
-    //     map['nome'],
-    //     map['telefone'],
-    //   );
-    //   contato.setId(map['id']);
-    //   listarClientes.add(objCliente);
-    // }
-    return listarClientes;
+      return map;
+    } catch (e) {}
   }
-
-
-
-
-
 
 
 
